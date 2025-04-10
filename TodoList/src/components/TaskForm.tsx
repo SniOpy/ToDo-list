@@ -1,13 +1,23 @@
 import { useState } from 'react';
+import React from 'react';
+import { TaskType } from '../typescript/TaskType';
 
-export default function TaskForm({ handleAdd, task, handleDelete }) {
-  const [newTask, setNewTask] = useState('');
+type TaskFormType = {
+  handleAdd: (taskAdded: TaskType) => void;
+  task: TaskType[];
+  handleDelete: (idTask: number) => void;
+};
 
-  const handleChange = (event) => {
+export default function TaskForm({ handleAdd, task, handleDelete }: TaskFormType) {
+  //! State
+  const [newTask, setNewTask] = useState<string>('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTask(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  //! comportement
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const id = new Date().getTime();
     const name = newTask;
@@ -17,11 +27,13 @@ export default function TaskForm({ handleAdd, task, handleDelete }) {
     setNewTask('');
   };
 
-  const onDelete = (id) => {
+  const onDelete = (id: number) => {
     handleDelete(id);
   };
+
+  //! affichage
   return (
-    <>
+    <div>
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -41,6 +53,6 @@ export default function TaskForm({ handleAdd, task, handleDelete }) {
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

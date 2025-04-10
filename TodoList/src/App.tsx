@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import React from 'react';
 import TaskForm from './components/TaskForm';
+import { TaskType } from './typescript/TaskType';
 
 function App() {
   //! State
-  const [task, setTask] = useState([
+  const [task, setTask] = useState<TaskType[]>([
     {
       id: 1,
       name: 'Faire la vaisselle',
@@ -19,7 +21,7 @@ function App() {
   ]);
   //! comportements
 
-  const handleAdd = (taskAdded) => {
+  const handleAdd = (taskAdded: TaskType) => {
     const copyTask = [...task];
 
     copyTask.push(taskAdded);
@@ -27,7 +29,7 @@ function App() {
     setTask(copyTask);
   };
 
-  const handleDelete = (idTask) => {
+  const handleDelete = (idTask: number) => {
     const copyTask = [...task];
 
     const copyTaskUpdated = copyTask.filter((task) => task.id !== idTask);
@@ -37,11 +39,11 @@ function App() {
 
   //! affichage
   return (
-    <>
+    <div>
       <h1>Todo list - Typescript</h1>
 
       <TaskForm handleAdd={handleAdd} task={task} handleDelete={handleDelete} />
-    </>
+    </div>
   );
 }
 
