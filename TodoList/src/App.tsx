@@ -1,37 +1,46 @@
 import { useState } from 'react';
+import TaskForm from './components/TaskForm';
 
 function App() {
   //! State
-  const [tasks, setTasks] = useState([{ name: 'Faire à manger' }, { name: 'Ranger le linge' }]);
-
+  const [task, setTask] = useState([
+    {
+      id: 1,
+      name: 'Faire la vaisselle',
+    },
+    {
+      id: 2,
+      name: 'Ranger le linge',
+    },
+    {
+      id: 3,
+      name: 'Se brosser les dents',
+    },
+  ]);
   //! comportements
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('submit');
+
+  const handleAdd = (taskAdded) => {
+    const copyTask = [...task];
+
+    copyTask.push(taskAdded);
+
+    setTask(copyTask);
   };
 
-  const handleChange = (event) => {
-    setTasks(event.target.value);
+  const handleDelete = (idTask) => {
+    const copyTask = [...task];
+
+    const copyTaskUpdated = copyTask.filter((task) => task.id !== idTask);
+
+    setTask(copyTaskUpdated);
   };
+
   //! affichage
   return (
     <>
       <h1>Todo list - Typescript</h1>
 
-      <form action="" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Ajouter une tâche" onChange={handleChange} />
-        <button>Ajouter</button>
-      </form>
-
-      <ul>
-        {tasks.map((task) => {
-          return (
-            <li key={task.name}>
-              {task.name} <button>X</button>
-            </li>
-          );
-        })}
-      </ul>
+      <TaskForm handleAdd={handleAdd} task={task} handleDelete={handleDelete} />
     </>
   );
 }
